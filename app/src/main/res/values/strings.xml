@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">ShoppingList</string>
+    <string name="hint_groceryItem">Artikel</string>
+</resources>
