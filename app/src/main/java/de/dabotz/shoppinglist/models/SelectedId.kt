@@ -7,11 +7,11 @@ import android.arch.lifecycle.ViewModel
 /**
  * Created by Botz on 08.07.17.
  */
-class SelectedViewModel: ViewModel() {
+class SelectedId : ViewModel() {
 
-    val selected: MutableLiveData<GroceryListItem> = MutableLiveData()
+    val selected: MutableLiveData<Int> = MutableLiveData()
 
-    fun select(item: GroceryListItem) {
-        selected.value = item
+    fun select(id: Int) {
+        selected.value = id
     }
 }

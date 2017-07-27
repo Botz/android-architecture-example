@@ -10,11 +10,15 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.arch.lifecycle.Observer
+import android.content.Intent
 import de.dabotz.shoppinglist.models.GroceryListItem
 import de.dabotz.shoppinglist.models.GroceryListItemViewModel
-import de.dabotz.shoppinglist.models.SelectedViewModel
+import de.dabotz.shoppinglist.models.SelectedId
 import kotlinx.android.synthetic.main.f_shopping_list.*
 import java.util.*
+import android.support.v7.widget.DividerItemDecoration
+
+
 
 /**
  * Created by Botz on 08.07.17.
@@ -24,11 +28,16 @@ class ShoppingListFragment: LifecycleFragment() {
     val groceryList by lazy {
         groceryItemsRecyclerView.layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
         groceryItemsRecyclerView.adapter = groceryListItemAdapter
+        val itemDecoration = DividerItemDecoration(context, DividerItemDecoration.VERTICAL)
+        groceryItemsRecyclerView.addItemDecoration(itemDecoration)
         groceryItemsRecyclerView
     }
 
     val groceryListItemAdapter = GroceryListItemAdapter {
-        selectedViewModel.select(it)
+        selectedViewModel.select(it.id)
+        val intent = Intent(context, DetailActivity::class.java)
+        intent.putExtra("itemId", it.id)
+        startActivity(intent)
     }
 
     val itemTouchHelper = ItemTouchHelper(object: ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT or ItemTouchHelper.RIGHT) {
@@ -46,7 +55,7 @@ class ShoppingListFragment: LifecycleFragment() {
     }
 
     val selectedViewModel by lazy {
-        ViewModelProviders.of(activity).get(SelectedViewModel::class.java)
+        ViewModelProviders.of(activity).get(SelectedId::class.java)
     }
 
     override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -59,7 +68,7 @@ class ShoppingListFragment: LifecycleFragment() {
 
         viewModel.groceryListItems.observe(this, Observer { items ->
             items?.let {
-                println(it)
+                //println(it)
                 groceryListItemAdapter.data = it
             }
         })

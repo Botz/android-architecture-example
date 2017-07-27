@@ -13,9 +13,16 @@ import de.dabotz.shoppinglist.models.GroceryListItem
 @Database(entities = arrayOf(GroceryListItem::class), version = 1)
 @TypeConverters(DateConverter::class)
 abstract class AppDatabase: RoomDatabase() {
+    private object Holder { var INSTANCE: AppDatabase? = null }
 
     companion object {
-        fun create(context: Context) = Room.databaseBuilder(context, AppDatabase::class.java, "grocery-db").allowMainThreadQueries().build()
+        fun create(context: Context) : AppDatabase {
+            if (Holder.INSTANCE == null) {
+                Holder.INSTANCE = Room.databaseBuilder(context, AppDatabase::class.java, "grocery-db").allowMainThreadQueries().build()
+            }
+
+            return Holder.INSTANCE!!
+        }
     }
 
     abstract fun groceryListItemDao() : GroceryListItemDAO

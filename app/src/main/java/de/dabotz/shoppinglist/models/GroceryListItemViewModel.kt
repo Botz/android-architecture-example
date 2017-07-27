@@ -14,4 +14,6 @@ class GroceryListItemViewModel(application: Application): AndroidViewModel(appli
 
     fun addItem(groceryListItem: GroceryListItem) = appDataBase.groceryListItemDao().add(groceryListItem)
     fun delete(groceryListItem: GroceryListItem?) = appDataBase.groceryListItemDao().delete(groceryListItem)
+    fun find(id : Int) = appDataBase.groceryListItemDao().find(id)
+    fun update(groceryListItem : GroceryListItem) = appDataBase.groceryListItemDao().update(groceryListItem)
 }

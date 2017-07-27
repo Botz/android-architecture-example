@@ -10,12 +10,14 @@
         <variable
             name="handler"
             type="de.dabotz.shoppinglist.ShoppingItemFragment"/>
+        <import type="android.view.View"/>
     </data>
 
     <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_margin="16dp">
+        android:layout_margin="16dp"
+        android:visibility="@{groceryItem != null ? View.VISIBLE : View.INVISIBLE}">
 
         <TextView
             app:layout_constraintTop_toTopOf="parent"
@@ -40,7 +42,7 @@
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintEnd_toStartOf="@+id/editText"
             tools:layout_editor_absoluteY="75dp"
-            android:onClick="@{(view) -> handler.increase(view, groceryItem)}"
+            android:onClick="@{(view) -> handler.decrease(view, groceryItem)}"
             app:layout_constraintTop_toTopOf="@+id/guideline" />
 
         <EditText
@@ -64,7 +66,7 @@
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintEnd_toEndOf="parent"
             tools:layout_editor_absoluteY="75dp"
-            android:onClick="@{(view) -> handler.decrease(view, groceryItem)}"
+            android:onClick="@{(view) -> handler.increase(view, groceryItem)}"
             app:layout_constraintTop_toTopOf="@+id/editText" />
 
         <android.support.constraint.Guideline

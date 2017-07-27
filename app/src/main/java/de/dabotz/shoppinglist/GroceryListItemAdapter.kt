@@ -20,12 +20,12 @@ class GroceryListItemAdapter(val onClickListener: (item:GroceryListItem) -> Unit
     override fun onCreateViewHolder(parent: ViewGroup, position: Int) = GroceryListItemViewHolder(parent.inflate(R.layout.vh_grocerylist))
 
     override fun onBindViewHolder(viewHolder: GroceryListItemViewHolder, position: Int) {
-        println("Bind ViewHolder Position: ${position}")
+        //println("Bind ViewHolder Position: ${position}")
         viewHolder.bindView(data[position], onClickListener)
     }
 
     override fun getItemCount(): Int {
-        println("Item Size: ${data.size}")
+        //println("Item Size: ${data.size}")
         return data.size
     }
 
@@ -34,6 +34,7 @@ class GroceryListItemAdapter(val onClickListener: (item:GroceryListItem) -> Unit
 
         fun bindView(groceryListItem: GroceryListItem, onClickListener: (item: GroceryListItem) -> Unit) {
             itemView.groceryListItemName.text = groceryListItem.name
+            itemView.groceryListItemQuantity.text = groceryListItem.count.toString()
             itemView.setOnClickListener {
                 onClickListener(groceryListItem)
             }
