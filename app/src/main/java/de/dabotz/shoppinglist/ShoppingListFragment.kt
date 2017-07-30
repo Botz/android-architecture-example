@@ -75,7 +75,7 @@ class ShoppingListFragment: LifecycleFragment() {
 
         sendButton.setOnClickListener {
             viewModel.addItem(GroceryListItem(0,
-                    groceryItemEditText.text.toString(), 1, Date()))
+                    groceryItemEditText.text.toString(), 1, created = Date()))
             groceryItemEditText.text.clear()
         }
     }

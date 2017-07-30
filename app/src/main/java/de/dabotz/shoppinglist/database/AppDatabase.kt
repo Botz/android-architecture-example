@@ -1,4 +1,4 @@
-package de.dabotz.shoppinglist
+package de.dabotz.shoppinglist.database
 
 import android.arch.persistence.room.Database
 import android.arch.persistence.room.Room
@@ -10,7 +10,7 @@ import de.dabotz.shoppinglist.models.GroceryListItem
 /**
  * Created by Botz on 05.07.17.
  */
-@Database(entities = arrayOf(GroceryListItem::class), version = 1)
+@Database(entities = arrayOf(GroceryListItem::class), version = 2)
 @TypeConverters(DateConverter::class)
 abstract class AppDatabase: RoomDatabase() {
     private object Holder { var INSTANCE: AppDatabase? = null }
@@ -18,7 +18,10 @@ abstract class AppDatabase: RoomDatabase() {
     companion object {
         fun create(context: Context) : AppDatabase {
             if (Holder.INSTANCE == null) {
-                Holder.INSTANCE = Room.databaseBuilder(context, AppDatabase::class.java, "grocery-db").allowMainThreadQueries().build()
+                Holder.INSTANCE = Room.databaseBuilder(context, AppDatabase::class.java, "grocery-db")
+                        .allowMainThreadQueries()
+                        .addMigrations(MIGRATION_1_2)
+                        .build()
             }
 
             return Holder.INSTANCE!!

@@ -1,4 +1,4 @@
-package de.dabotz.shoppinglist
+package de.dabotz.shoppinglist.database
 
 import android.arch.lifecycle.LiveData
 import android.arch.persistence.room.*

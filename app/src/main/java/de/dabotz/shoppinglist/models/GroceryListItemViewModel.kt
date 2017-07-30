@@ -2,7 +2,7 @@ package de.dabotz.shoppinglist.models
 
 import android.app.Application
 import android.arch.lifecycle.AndroidViewModel
-import de.dabotz.shoppinglist.AppDatabase
+import de.dabotz.shoppinglist.database.AppDatabase
 
 /**
  * Created by Botz on 05.07.17.
