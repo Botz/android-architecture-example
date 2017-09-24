@@ -1,8 +1,10 @@
-package de.dabotz.shoppinglist
+package de.dabotz.shoppinglist.modules.list
 
 import android.support.v7.widget.RecyclerView
 import android.view.View
 import android.view.ViewGroup
+import de.dabotz.shoppinglist.R
+import de.dabotz.shoppinglist.inflate
 import de.dabotz.shoppinglist.models.GroceryListItem
 import kotlinx.android.synthetic.main.vh_grocerylist.view.*
 

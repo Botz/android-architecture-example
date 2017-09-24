@@ -9,7 +9,7 @@
             type="de.dabotz.shoppinglist.models.GroceryListItem"/>
         <variable
             name="handler"
-            type="de.dabotz.shoppinglist.ShoppingItemFragment"/>
+            type="de.dabotz.shoppinglist.modules.detail.ShoppingItemFragment"/>
         <import type="android.view.View"/>
     </data>
 

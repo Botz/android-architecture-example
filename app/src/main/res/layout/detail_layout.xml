@@ -6,5 +6,5 @@
         android:id="@+id/detailFragment"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:name="de.dabotz.shoppinglist.ShoppingItemFragment"/>
+        android:name="de.dabotz.shoppinglist.modules.detail.ShoppingItemFragment"/>
 </LinearLayout>

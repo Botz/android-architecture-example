@@ -1,7 +1,5 @@
-package de.dabotz.shoppinglist
+package de.dabotz.shoppinglist.modules.list
 
-import android.arch.lifecycle.LifecycleFragment
-import android.arch.lifecycle.ViewModelProviders
 import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
@@ -11,19 +9,28 @@ import android.view.View
 import android.view.ViewGroup
 import android.arch.lifecycle.Observer
 import android.content.Intent
+import android.support.v4.app.Fragment
 import de.dabotz.shoppinglist.models.GroceryListItem
 import de.dabotz.shoppinglist.models.GroceryListItemViewModel
 import de.dabotz.shoppinglist.models.SelectedId
 import kotlinx.android.synthetic.main.f_shopping_list.*
 import java.util.*
 import android.support.v7.widget.DividerItemDecoration
-
+import com.github.salomonbrys.kodein.Kodein
+import com.github.salomonbrys.kodein.KodeinInjector
+import com.github.salomonbrys.kodein.android.FragmentInjector
+import com.github.salomonbrys.kodein.android.KodeinFragment
+import com.github.salomonbrys.kodein.android.SupportFragmentInjector
+import com.github.salomonbrys.kodein.instance
+import de.dabotz.shoppinglist.modules.detail.DetailActivity
+import de.dabotz.shoppinglist.R
 
 
 /**
  * Created by Botz on 08.07.17.
  */
-class ShoppingListFragment: LifecycleFragment() {
+class ShoppingListFragment: Fragment(), SupportFragmentInjector {
+    override val injector: KodeinInjector = KodeinInjector()
 
     val groceryList by lazy {
         groceryItemsRecyclerView.layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
@@ -50,15 +57,14 @@ class ShoppingListFragment: LifecycleFragment() {
         }
     })
 
-    val viewModel by lazy {
-        ViewModelProviders.of(activity).get(GroceryListItemViewModel::class.java)
-    }
+    val viewModel: GroceryListItemViewModel by injector.instance()
+    val selectedViewModel: SelectedId by injector.instance()
 
-    val selectedViewModel by lazy {
-        ViewModelProviders.of(activity).get(SelectedId::class.java)
-    }
+    override fun provideOverridingModule() = createListModule(this)
+
 
     override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+        initializeInjector()
         return inflater!!.inflate(R.layout.f_shopping_list, container, false)
     }
 
@@ -68,7 +74,6 @@ class ShoppingListFragment: LifecycleFragment() {
 
         viewModel.groceryListItems.observe(this, Observer { items ->
             items?.let {
-                //println(it)
                 groceryListItemAdapter.data = it
             }
         })
@@ -78,5 +83,10 @@ class ShoppingListFragment: LifecycleFragment() {
                     groceryItemEditText.text.toString(), 1, created = Date()))
             groceryItemEditText.text.clear()
         }
+    }
+
+    override fun onDestroy() {
+        destroyInjector()
+        super.onDestroy()
     }
 }

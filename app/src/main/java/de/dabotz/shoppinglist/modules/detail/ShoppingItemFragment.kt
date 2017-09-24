@@ -1,4 +1,4 @@
-package de.dabotz.shoppinglist
+package de.dabotz.shoppinglist.modules.detail
 
 import android.arch.lifecycle.LifecycleFragment
 import android.arch.lifecycle.LiveData
@@ -6,30 +6,37 @@ import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProviders
 import android.databinding.DataBindingUtil
 import android.os.Bundle
+import android.support.v4.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import com.github.salomonbrys.kodein.KodeinInjector
+import com.github.salomonbrys.kodein.android.FragmentInjector
+import com.github.salomonbrys.kodein.android.SupportFragmentInjector
+import com.github.salomonbrys.kodein.instance
+import de.dabotz.shoppinglist.R
 import de.dabotz.shoppinglist.databinding.FShoppingItemBinding
 import de.dabotz.shoppinglist.models.GroceryListItem
 import de.dabotz.shoppinglist.models.GroceryListItemViewModel
 import de.dabotz.shoppinglist.models.SelectedId
+import de.dabotz.shoppinglist.modules.list.createListModule
 
 /**
  * Created by Botz on 08.07.17.
  */
-class ShoppingItemFragment: LifecycleFragment() {
+class ShoppingItemFragment: Fragment(), SupportFragmentInjector {
+    override val injector: KodeinInjector = KodeinInjector()
 
-    val selectedId by lazy {
-        ViewModelProviders.of(activity).get(SelectedId::class.java)
-    }
 
-    val viewModel by lazy {
-        ViewModelProviders.of(this).get(GroceryListItemViewModel::class.java)
-    }
+    val viewModel: GroceryListItemViewModel by injector.instance()
+    val selectedId: SelectedId by injector.instance()
+
+    override fun provideOverridingModule() = createDetailModule(this)
 
     lateinit var dataBinding: FShoppingItemBinding
 
     override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+        initializeInjector()
         dataBinding = DataBindingUtil.inflate(inflater, R.layout.f_shopping_item, container,false)
         dataBinding.handler = this
         return dataBinding.root
@@ -66,5 +73,8 @@ class ShoppingItemFragment: LifecycleFragment() {
         viewModel.update(item)
     }
 
-
+    override fun onDestroy() {
+        destroyInjector()
+        super.onDestroy()
+    }
 }

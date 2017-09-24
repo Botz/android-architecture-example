@@ -9,11 +9,11 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginRight="8dp"
-        android:name="de.dabotz.shoppinglist.ShoppingListFragment"/>
+        android:name="de.dabotz.shoppinglist.modules.list.ShoppingListFragment"/>
     <fragment
         android:id="@+id/detailFragment"
         android:layout_weight="1"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:name="de.dabotz.shoppinglist.ShoppingItemFragment"/>
+        android:name="de.dabotz.shoppinglist.modules.detail.ShoppingItemFragment"/>
 </LinearLayout>
