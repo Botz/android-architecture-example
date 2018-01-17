@@ -1,29 +1,26 @@
 package de.dabotz.shoppinglist.modules.list
 
+import android.arch.lifecycle.Observer
+import android.content.Intent
 import android.os.Bundle
+import android.support.v4.app.Fragment
+import android.support.v7.widget.DividerItemDecoration
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.support.v7.widget.helper.ItemTouchHelper
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.arch.lifecycle.Observer
-import android.content.Intent
-import android.support.v4.app.Fragment
+import com.github.salomonbrys.kodein.KodeinInjector
+import com.github.salomonbrys.kodein.android.SupportFragmentInjector
+import com.github.salomonbrys.kodein.instance
+import de.dabotz.shoppinglist.R
 import de.dabotz.shoppinglist.models.GroceryListItem
 import de.dabotz.shoppinglist.models.GroceryListItemViewModel
 import de.dabotz.shoppinglist.models.SelectedId
+import de.dabotz.shoppinglist.modules.detail.DetailActivity
 import kotlinx.android.synthetic.main.f_shopping_list.*
 import java.util.*
-import android.support.v7.widget.DividerItemDecoration
-import com.github.salomonbrys.kodein.Kodein
-import com.github.salomonbrys.kodein.KodeinInjector
-import com.github.salomonbrys.kodein.android.FragmentInjector
-import com.github.salomonbrys.kodein.android.KodeinFragment
-import com.github.salomonbrys.kodein.android.SupportFragmentInjector
-import com.github.salomonbrys.kodein.instance
-import de.dabotz.shoppinglist.modules.detail.DetailActivity
-import de.dabotz.shoppinglist.R
 
 
 /**
@@ -63,12 +60,12 @@ class ShoppingListFragment: Fragment(), SupportFragmentInjector {
     override fun provideOverridingModule() = createListModule(this)
 
 
-    override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         initializeInjector()
         return inflater!!.inflate(R.layout.f_shopping_list, container, false)
     }
 
-    override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         itemTouchHelper.attachToRecyclerView(groceryList)
 

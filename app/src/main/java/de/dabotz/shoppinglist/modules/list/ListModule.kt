@@ -2,6 +2,7 @@ package de.dabotz.shoppinglist.modules.list
 
 import android.arch.lifecycle.ViewModelProviders
 import android.support.v4.app.Fragment
+import android.support.v4.app.FragmentActivity
 import com.github.salomonbrys.kodein.Kodein
 import com.github.salomonbrys.kodein.bind
 import com.github.salomonbrys.kodein.instance
@@ -20,6 +21,6 @@ fun createListModule(fragment: Fragment) = Kodein.Module {
     }
 
     bind<SelectedId>() with provider {
-        ViewModelProviders.of(fragment.activity)[SelectedId::class.java]
+        ViewModelProviders.of(instance<FragmentActivity>("Activity"))[SelectedId::class.java]
     }
 }
