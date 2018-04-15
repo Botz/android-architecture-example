@@ -1,12 +1,10 @@
 package de.dabotz.shoppinglist.modules.list
 
 import android.arch.lifecycle.ViewModelProviders
-import android.support.v4.app.Fragment
-import android.support.v4.app.FragmentActivity
-import com.github.salomonbrys.kodein.Kodein
-import com.github.salomonbrys.kodein.bind
-import com.github.salomonbrys.kodein.instance
-import com.github.salomonbrys.kodein.provider
+import dagger.Module
+import dagger.Provides
+import dagger.android.support.DaggerFragment
+import de.dabotz.shoppinglist.database.AppDatabase
 import de.dabotz.shoppinglist.models.GroceryListItemViewModel
 import de.dabotz.shoppinglist.models.SelectedId
 
@@ -14,13 +12,16 @@ import de.dabotz.shoppinglist.models.SelectedId
  * Created by Botz on 24.09.17.
  */
 
-fun createListModule(fragment: Fragment) = Kodein.Module {
-    bind<GroceryListItemViewModel>() with provider {
-        val factory = GroceryListItemViewModel.Fabric(instance())
-        ViewModelProviders.of(fragment, factory)[GroceryListItemViewModel::class.java]
-    }
+@Module
+object ListModule {
 
-    bind<SelectedId>() with provider {
-        ViewModelProviders.of(instance<FragmentActivity>("Activity"))[SelectedId::class.java]
-    }
+    @JvmStatic
+    @Provides
+    fun provideGroceryListItemViewModel(fragment: ShoppingListFragment, db: AppDatabase)
+        = ViewModelProviders.of(fragment, GroceryListItemViewModel.Fabric(db))[GroceryListItemViewModel::class.java]
+
+    @JvmStatic
+    @Provides
+    fun provideSelectedIdViewModel(fragment: ShoppingListFragment)
+        = ViewModelProviders.of(fragment.activity!!)[SelectedId::class.java]
 }
